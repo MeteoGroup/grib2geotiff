@@ -21,9 +21,9 @@ java -jar grib2geotiff -in [inputDirectory] -out [outputDirectory]
 ```
 OUTPUT_DIRECTORY/
 │-- [referenceTime]/
-│-- [category]/
-│-- [parameterName]/
-│-- [parameterName]_[level]_[forecastTime].tif
+    │-- [category]/
+        │-- [parameterName]/
+            │-- [parameterName]_[level]_[forecastTime].tif
 ```
 
 * `referenceTime` is the time the whole forecast is referenced
