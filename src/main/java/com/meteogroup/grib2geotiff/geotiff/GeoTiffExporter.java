@@ -11,12 +11,14 @@ import org.geotools.gce.geotiff.GeoTiffFormat;
 import org.geotools.gce.geotiff.GeoTiffWriteParams;
 import org.geotools.gce.geotiff.GeoTiffWriter;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.referencing.CRS;
 import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.parameter.ParameterValueGroup;
+import org.opengis.referencing.FactoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.media.jai.TiledImage;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
@@ -25,15 +27,18 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.logging.Logger;
 
 /**
  * Created by danielt on 14.09.15.
  */
 public class GeoTiffExporter {
 
-    static final Logger log = Logger.getLogger(GeoTiffExporter.class.getName());
+    static final Logger LOGGER = LoggerFactory.getLogger(GeoTiffExporter.class);
     static final int TILE_SIZE = 256;
+    static final int WORLD_LEFT = -180;
+    static final int WORLD_RIGHT = 180;
+    static final int WORLD_TOP = 90;
+    static final int WORLD_BOTTOM = -90;
 
     private File outDirectory;
 
@@ -73,8 +78,8 @@ public class GeoTiffExporter {
      * @param data
      */
     private void writeGeotiff(float[] data, RecordMetadata metadata, String targetFile) throws Exception{
-        log.info("target: " + targetFile);
-        GridCoverage2D coverage = makeBinaryCoverage(data, metadata.getColumns(), metadata.getRows());
+        LOGGER.info("target: " + targetFile);
+        GridCoverage2D coverage = createCoverage(data, metadata.getColumns(), metadata.getRows());
         GeoTiffWriter writer = new GeoTiffWriter(new File(targetFile));
         appendTextMetadata(writer, metadata);
         writer.write(coverage, createWriteParameters());
@@ -122,10 +127,14 @@ public class GeoTiffExporter {
      * @param data
      * @return
      */
-    public GridCoverage2D makeBinaryCoverage(float[] data, int columns, int rows) {
-        GridCoverageFactory gcf =
-                CoverageFactoryFinder.getGridCoverageFactory(null);
+    public GridCoverage2D createCoverage(float[] data, int columns, int rows) {
+        GridCoverageFactory gcf = CoverageFactoryFinder.getGridCoverageFactory(null);
+        TiledImage img = ceateImageContent(data, columns, rows);
+        ReferencedEnvelope env = createEnvelope();
+        return gcf.create("coverage", img, env);
+    }
 
+    private TiledImage ceateImageContent(float[] data, int columns, int rows) {
         SampleModel sm = new ComponentSampleModel(DataBuffer.TYPE_DOUBLE,
                 TILE_SIZE, TILE_SIZE, 1, TILE_SIZE, new int[]{0});
 
@@ -134,21 +143,30 @@ public class GeoTiffExporter {
         TiledImage img = new TiledImage(0, 0, columns, rows, 0, 0, sm, cm);
 
         int i = 0;
+        int halfColumns = (int)((double)columns/2.0);
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                if(x >= 180) {
-                    img.setSample(x-180, y, 0, data[i]);
+                if(x >= halfColumns) {
+                    img.setSample(x-halfColumns, y, 0, data[i]);
                 }else{
-                    img.setSample(x+180, y, 0, data[i]);
+                    img.setSample(x+halfColumns, y, 0, data[i]);
                 }
                 i++;
             }
         }
+        return img;
+    }
 
-        ReferencedEnvelope env = new ReferencedEnvelope(
-                new Rectangle2D.Double(-180, -90, 360, 180), DefaultGeographicCRS.WGS84);
-
-        return gcf.create("coverage", img, env);
+    private ReferencedEnvelope createEnvelope() {
+        ReferencedEnvelope env = null;
+        try {
+            env = new ReferencedEnvelope(
+                    WORLD_BOTTOM, WORLD_TOP, WORLD_LEFT, WORLD_RIGHT,
+                    CRS.decode("EPSG:4326"));
+        } catch (FactoryException e) {
+            LOGGER.error("Cannot create georeferenced Envelope: "+e.getMessage(), e);
+        }
+        return env;
     }
 
     /**
