@@ -45,10 +45,13 @@ public class GribFileAccess {
      */
     public List<RandomAccessFile> getRafFiles() throws Exception {
         LOGGER.info("start scanning folder " + inputDirectory.getAbsolutePath());
-        File[] files = inputDirectory.listFiles();
         List<RandomAccessFile> validRafFiles = new ArrayList<RandomAccessFile>();
-        for (File file : files) {
+        File[] files = inputDirectory.listFiles();
+        if(files == null || files.length == 0){
+            return validRafFiles;
+        }
 
+        for (File file : files) {
             RandomAccessFile validRaf = getValidGribfile(file);
 
             if (validRaf != null) {
@@ -77,9 +80,11 @@ public class GribFileAccess {
         raf.order(RandomAccessFile.BIG_ENDIAN);
 
         if(Grib2Input.isValidFile(raf)){
-            LOGGER.info("USE " + file.getAbsolutePath());
+            return raf;
+        }else{
+            return null;
         }
-        return raf;
+
     }
 
     /**
