@@ -19,7 +19,7 @@ The important parameter's metadata like level, unit or reference and forecast ti
  * `outputDirectory` will contain all Geotiffs in the file structure schema below. This folder will get created if it does not exist.
 
  ```
- [OUTPUT_DIRECTORY]/
+ [outputDirectory]/
  └── [referenceTime]/
      └── [category]/
          └── [parameterName]/
@@ -29,7 +29,7 @@ The important parameter's metadata like level, unit or reference and forecast ti
  * `referenceTime` is the time the whole forecast is referenced
  * `category` is the parameter's category
  * `parameterName` is the name of the parameter
- * `level` is the elevation (if set), often in meters or hP
+ * `level` is the elevation (if set), often in meters (m) or pascal (Pa)
  * `forecastTime` is the time when the forecast affects
 
 ## Limitations
