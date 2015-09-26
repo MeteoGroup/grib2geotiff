@@ -17,11 +17,12 @@ public class Main {
 
     /**
      *
+     * Main Method
+     *
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception{
-        LOGGER.info("args: " + Arrays.toString(args));
 
         Options options = createOptions();
 
@@ -29,19 +30,10 @@ public class Main {
 
         try{
             CommandLine cmd = parser.parse(options, args);
-            if(cmd.hasOption("in")){
-                LOGGER.info("in is drin!!!! ");
-            }
-            if(cmd.hasOption("out")){
-                LOGGER.info("out is drin!!!! ");
-            }
             String inDirectory = cmd.getOptionValue("in", "");
             String outDirectory = cmd.getOptionValue("out", "");
-            LOGGER.info("in = " + inDirectory);
-            LOGGER.info("out = " + outDirectory);
 
             validateDirectories(inDirectory, outDirectory);
-
 
             GribAtomizer atomizer = new GribAtomizer(
                     new File(inDirectory),
@@ -76,8 +68,8 @@ public class Main {
     private static Options createOptions() {
         Options options = new Options();
         options.addOption("help", false, "help");
-        options.addOption("in", true, "input directory with some GFS files");
-        options.addOption("out", true, "output directory for atomized GFS files");
+        options.addOption("in", true, "input directory with some GFS Gribfiles");
+        options.addOption("out", true, "output directory for atomized Geotiffs");
         return options;
     }
 
