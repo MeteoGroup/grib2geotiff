@@ -1,18 +1,26 @@
 # grib2geotiff - Gribfile to Geotiff
-
 This handy tool converts Gribfiles to Geotiffs.
-Gribfiles (grb, grib or grib2) are the de-facto standard file format in the Meteorology world while Geotiff (tif) is this standard on the GIS world.
+Gribfiles (.grb, .grib or .grib2) are the de-facto standard file format in the Meteorology world while Geotiff (.tif) has the same rank in the GIS world.
 Because Gribfiles are binary with a lot of free configuration capabilities, not every GIS tool can handle these files properly.
 
 ## Usage
-A Gribfile can contain hundreds of records, while one record usually represents one specific meteorological parameter with a rich set off metadata.
-grib2geotiff converts all records of a Gribfile to a single Geotiffs.
+A Gribfile can contain hundreds of records, while one record usually represents one specific meteorological parameter with a rich set of metadata.
+grib2geotiff converts all records of a Gribfile to atomized Geotiffs.
 The converted Geotiffs are grouped by the parameter's metadata so that the bulk of them is manageable.
 The important parameter's metadata like level, unit or reference and forecast time is applied to the Geotiffs metadata.
 
+## Install
+
+To install this tool you need to install [Git](https://git-scm.com/doc), [Maven](https://maven.apache.org/guides/getting-started/) and [Java 8](https://java.com/de/download/) first.
+1. clone this repository via Git: `git clone https://github.com/MeteoGroup/grib2geotiff.git`
+2. go into the directory: `cd grib2geotiff`
+3. build the java sources with Maven: `mvn install`
+
+
+## Run
 
  ```
- java -jar grib2geotiff -in [inputDirectory] -out [outputDirectory]
+ java -jar grib2geotiff.jar -in [inputDirectory] -out [outputDirectory]
  ```
 
  * `inputDirectory` should contain one or more Gribfiles form the Global Forecast System (GFS), which can be downloaded from their FTP server: ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/ .
@@ -26,20 +34,21 @@ The important parameter's metadata like level, unit or reference and forecast ti
              └── [parameterName]_[level]_[forecastTime].tif
  ```
 
- * `referenceTime` is the time the whole forecast is referenced
+ * `referenceTime` is the time the whole forecast is referenced to
  * `category` is the parameter's category
  * `parameterName` is the name of the parameter
- * `level` is the elevation (if set), often in meters (m) or pascal (Pa)
+ * `level` is the elevation (if set), often in meters (m) or hectopascal (hPa)
  * `forecastTime` is the time when the forecast affects
+
 
 ## Limitations
 Currently this tool is only tested with Gribfiles from the GFS. But feel free to try Gribfiles from other data sources.
-Please give us Feedback about the models you want to see integrated.
+Please give us feedback about the models you want to see integrated.
 
 ## Example
 
 1. The GFS Gribfile `gfs.t18z.pgrb2.1p00.f003` was downloaded from the [GFS FTP server](ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.2015091218/)
-and placed in the folder `/geodata/weather/input/`.
+and placed in the folder `/geodata/weather/input/`
 2. The tool is executed with the command `java -jar -in /geodata/weather/input/ -out /geodata/weather/output/`
 3. The output folder now contains XXX Geotiffs where each of them represents one record / parameter of the given Gribfile (see list below)
 
