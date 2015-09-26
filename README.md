@@ -2,7 +2,7 @@
 
 This handy tool converts Gribfiles to Geotiffs.
 Gribfiles (grb, grib or grib2) are the de-facto standard file format in the Meteorology world while Geotiff (tif) is this standard on the GIS world.
-Because Gribfiles are binary with a lot of free configuration capabilities not every GIS tool can handle this files properly.
+Because Gribfiles are binary with a lot of free configuration capabilities, not every GIS tool can handle these files properly.
 
 ## Usage
 A Gribfile can contain hundreds of records, while one record usually represents one specific meteorological parameter with a rich set off metadata.
@@ -15,7 +15,7 @@ The important parameter's metadata like level, unit or reference and forecast ti
  java -jar grib2geotiff -in [inputDirectory] -out [outputDirectory]
  ```
 
- * `inputDirectory` should contain one or more Gribfiles form the Global Forecast System (GFS), which can be downloaded from [their FTP server](ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/).
+ * `inputDirectory` should contain one or more Gribfiles form the Global Forecast System (GFS), which can be downloaded from their FTP server: ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/ .
  * `outputDirectory` will contain all Geotiffs in the file structure schema below. This folder will get created if it does not exist.
 
  ```
@@ -38,10 +38,11 @@ Please give us Feedback about the models you want to see integrated.
 
 ## Example
 
-1. The GFS Gribfile `gfs.t18z.pgrb2.1p00.f003` was downloaded from the [GFS' FTP server](ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.2015091218/)
+1. The GFS Gribfile `gfs.t18z.pgrb2.1p00.f003` was downloaded from the [GFS FTP server](ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.2015091218/)
 and placed in the folder `/geodata/weather/input/`.
 2. The tool is executed with the command `java -jar -in /geodata/weather/input/ -out /geodata/weather/output/`
-3. The output folder now contains the following data:
+3. The output folder now contains XXX Geotiffs where each of them represents one record / parameter of the given Gribfile (see list below)
+
 ```
  /geodata/weather/output/
  └── 2015-09-12T18:00:00Z
