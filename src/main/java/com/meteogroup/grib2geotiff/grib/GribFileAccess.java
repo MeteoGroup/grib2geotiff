@@ -38,8 +38,6 @@ public class GribFileAccess {
         return gd.getData(record.getGdsOffset(), record.getPdsOffset(), id.getRefTime());
     }
 
-
-
     /**
      *
      * @return
@@ -63,6 +61,12 @@ public class GribFileAccess {
         return validRafFiles;
     }
 
+    /**
+     *
+     * @param file
+     * @return
+     * @throws Exception
+     */
     private RandomAccessFile getValidGribfile(File file) throws Exception{
         if(!file.exists()
                 || file.isDirectory()

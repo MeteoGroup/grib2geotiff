@@ -20,11 +20,21 @@ public class GribAtomizer {
 
     GeoTiffExporter geoTiffExporter = new GeoTiffExporter();
 
+    /**
+     *
+     * @param inDirectory
+     * @param outDirectory
+     * @throws Exception
+     */
     public GribAtomizer(File inDirectory, File outDirectory) throws Exception{
         this.gribAccessor.setInputDirectory(inDirectory);
         this.geoTiffExporter.setOutDirectory(outDirectory);
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public void atomize() throws Exception{
         List<RandomAccessFile> gfsFiles = gribAccessor.getRafFiles();
         for (RandomAccessFile gfsFile : gfsFiles){
