@@ -5,11 +5,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import ucar.grib.grib2.*;
 
-import javax.inject.Singleton;
 import java.awt.geom.Rectangle2D;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**

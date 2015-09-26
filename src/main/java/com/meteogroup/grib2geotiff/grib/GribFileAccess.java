@@ -1,11 +1,15 @@
 package com.meteogroup.grib2geotiff.grib;
 
-import ucar.grib.grib2.*;
+import ucar.grib.grib2.Grib2Data;
+import ucar.grib.grib2.Grib2IdentificationSection;
+import ucar.grib.grib2.Grib2Input;
+import ucar.grib.grib2.Grib2Record;
 import ucar.unidata.io.RandomAccessFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**

@@ -1,17 +1,14 @@
 package com.meteogroup.grib2geotiff.grib;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ucar.grib.grib2.Grib2Record;
-import ucar.nc2.grib.collection.GribCollection;
-import ucar.nc2.util.TableParser;
 import ucar.unidata.io.RandomAccessFile;
 
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by danielt on 14.09.15.

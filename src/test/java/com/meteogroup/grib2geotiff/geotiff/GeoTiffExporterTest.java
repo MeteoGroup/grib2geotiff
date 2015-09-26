@@ -3,7 +3,7 @@ package com.meteogroup.grib2geotiff.geotiff;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 /**
  * Created by danielt on 14.09.15.
