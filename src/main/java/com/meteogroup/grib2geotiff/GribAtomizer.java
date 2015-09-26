@@ -40,7 +40,7 @@ public class GribAtomizer {
         for (RandomAccessFile gfsFile : gfsFiles){
             List<Grib2Record> records = gribAccessor.getRecords(gfsFile);
             for(Grib2Record record : records){
-                RecordMetadata metadata = metadataReader.getGfsRecordMetadata(record);
+                RecordMetadata metadata = GribMetadataReader.getGfsRecordMetadata(record);
                 float[] data = gribAccessor.getGfsRecordData(gfsFile, record);
                 geoTiffExporter.createGeoTiff(data, metadata);
             }
