@@ -42,8 +42,14 @@ To install this tool you need to install [Git](https://git-scm.com/doc), [Maven]
 
 
 ## Limitations
+
+#### GFS only
 Currently this tool is only tested with Gribfiles from the GFS. But feel free to try Gribfiles from other data sources.
-Please give us feedback about the models you want to see integrated.
+
+#### mixed resolutions
+Currently grib2geotiff is overwriting already existing Geotiffs. So the processing the Gribfiles with the same `referenceTime` und `forecastTime` but different resolutions has to be done in two steps. See this two Gribfiles:
+ * `gfs.t18z.pgrb2.1p00.f003`
+ * `gfs.t18z.pgrb2.2p50.f003`
 
 ## Example
 
