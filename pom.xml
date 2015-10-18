@@ -24,12 +24,21 @@
             <name>Boundless Maven Repository</name>
             <url>http://repo.boundlessgeo.com/main</url>
         </repository>
+        <!-- unavailable Geotools Dependencies -->
         <repository>
-            <id>com.springsource.repository.bundles.external</id>
-            <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
-            <url>http://repository.springsource.com/maven/bundles/external</url>
+            <id>osgeo/webdav</id>
+            <name>osgeo/webdav</name>
+            <url>http://download.osgeo.org/webdav/geotools/</url>
         </repository>
     </repositories>
+
+		<pluginRepositories>
+				<!-- Maven OneJar -->
+	    	<pluginRepository>
+		        <id>onejar-maven-plugin.googlecode.com</id>
+		        <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+	    	</pluginRepository>
+		</pluginRepositories>	
 
     <dependencies>
         <dependency>
@@ -128,5 +137,27 @@
         </dependency>
 
     </dependencies>
+    
+		<build>
+				<plugins>
+						<!-- Maven OneJar -->
+				    <plugin>
+						    <groupId>org.dstovall</groupId>
+						    <artifactId>onejar-maven-plugin</artifactId>
+						    <version>1.3.0</version>
+						    <executions>
+						        <execution>
+						            <configuration>
+						                <mainClass>com.meteogroup.grib2geotiff.Main</mainClass>
+													  <filename>${project.artifactId}.${project.packaging}</filename>
+						            </configuration>
+						            <goals>
+						                <goal>one-jar</goal>
+						            </goals>
+						        </execution>
+						    </executions>
+						</plugin>
+				</plugins>
+		</build>
 
 </project>
