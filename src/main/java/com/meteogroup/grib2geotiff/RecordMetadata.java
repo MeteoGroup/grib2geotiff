@@ -11,8 +11,8 @@ public class RecordMetadata {
     String name;
     String category;
     String unit;
-    String referenceTime;
-    String forecastTime;
+    long referenceTime;
+    long forecastTime;
     Rectangle2D.Double bbox;
     int columns;
     int rows;
@@ -54,19 +54,19 @@ public class RecordMetadata {
         this.unit = unit;
     }
 
-    public String getReferenceTime() {
+    public long getReferenceTime() {
         return referenceTime;
     }
 
-    public void setReferenceTime(String referenceTime) {
+    public void setReferenceTime(long referenceTime) {
         this.referenceTime = referenceTime;
     }
 
-    public String getForecastTime() {
+    public long getForecastTime() {
         return forecastTime;
     }
 
-    public void setForecastTime(String forecastTime) {
+    public void setForecastTime(long forecastTime) {
         this.forecastTime = forecastTime;
     }
 

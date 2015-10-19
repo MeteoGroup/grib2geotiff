@@ -1,7 +1,14 @@
 package com.meteogroup.grib2geotiff.geotiff;
 
-import com.meteogroup.grib2geotiff.RecordMetadata;
-import com.sun.media.imageio.plugins.tiff.BaselineTIFFTagSet;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentSampleModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.SampleModel;
+import java.io.File;
+import java.io.IOException;
+
+import javax.media.jai.TiledImage;
+
 import org.geotools.coverage.CoverageFactoryFinder;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
@@ -18,15 +25,9 @@ import org.opengis.referencing.FactoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.media.jai.TiledImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.SampleModel;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import com.meteogroup.grib2geotiff.RecordMetadata;
+import com.meteogroup.grib2geotiff.util.TargetPathGenerator;
+import com.sun.media.imageio.plugins.tiff.BaselineTIFFTagSet;
 
 /**
  * Created by danielt on 14.09.15.
@@ -175,37 +176,9 @@ public class GeoTiffExporter {
      * @return
      */
     private String createTargetFilename(RecordMetadata metadata) {
-        StringBuffer targetFilename = new StringBuffer()
-                .append(outDirectory)
-                .append("/")
-                .append(metadata.getReferenceTime())
-                .append("/")
-                .append(metadata.getCategory())
-                .append("/")
-                .append(metadata.getName())
-                .append("/")
-                .append(metadata.getName());
-
-        if(metadata.getLevelType1() != null) {
-            BigDecimal bd = new BigDecimal(metadata.getLevelValue1())
-                    .stripTrailingZeros()
-                    .setScale(0, RoundingMode.HALF_UP);
-
-            targetFilename.append("_")
-                    .append(bd.longValue());
-        }
-        if(metadata.getLevelType2() != null){
-            BigDecimal bd = new BigDecimal(metadata.getLevelValue2())
-                    .stripTrailingZeros()
-                    .setScale(0, RoundingMode.HALF_UP);
-            targetFilename.append("_")
-                    .append(bd.longValue());
-        }
-
-        targetFilename.append("_")
-                .append(metadata.getForecastTime())
-                .append(".tif");
-        return targetFilename.toString();
+        return outDirectory+"/"
+        		+ TargetPathGenerator.generateTargePath(metadata)
+        		+".tif";
     }
 
     /**

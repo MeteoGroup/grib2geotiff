@@ -14,13 +14,13 @@ The important parameter's metadata like level, unit or reference and forecast ti
 To install this tool you need to install [Git](https://git-scm.com/doc), [Maven](https://maven.apache.org/guides/getting-started/) and [Java 8](https://java.com/de/download/) first.
 1. clone this repository via Git: `git clone https://github.com/MeteoGroup/grib2geotiff.git`
 2. go into the directory: `cd grib2geotiff`
-3. build the java sources with Maven: `mvn install`
+3. build the java sources with Maven: `mvn package`
 
 
 ## Run
 
  ```
- java -jar grib2geotiff.jar -in [inputDirectory] -out [outputDirectory]
+ java -jar target/grib2geotiff.jar -in [inputDirectory] -out [outputDirectory]
  ```
 
  * `inputDirectory` should contain one or more Gribfiles form the Global Forecast System (GFS), which can be downloaded from their FTP server: ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/ .
