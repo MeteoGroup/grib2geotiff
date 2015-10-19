@@ -1,20 +1,26 @@
 package com.meteogroup.grib2geotiff.grib;
 
-import com.meteogroup.grib2geotiff.RecordMetadata;
+import java.awt.geom.Rectangle2D;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import ucar.grib.grib2.*;
 
-import java.awt.geom.Rectangle2D;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
+import ucar.grib.grib2.Grib2GDSVariables;
+import ucar.grib.grib2.Grib2GridDefinitionSection;
+import ucar.grib.grib2.Grib2IdentificationSection;
+import ucar.grib.grib2.Grib2IndicatorSection;
+import ucar.grib.grib2.Grib2Pds;
+import ucar.grib.grib2.Grib2ProductDefinitionSection;
+import ucar.grib.grib2.Grib2Record;
+import ucar.grib.grib2.Grib2Tables;
+import ucar.grib.grib2.ParameterTable;
+
+import com.meteogroup.grib2geotiff.RecordMetadata;
 
 /**
  * Created by danielt on 25.09.15.
  */
 public class GribMetadataReader {
-
-    private final static SimpleDateFormat TIMEFORMAT_ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private static Grib2IndicatorSection is;
     private static Grib2IdentificationSection id;
@@ -82,11 +88,10 @@ public class GribMetadataReader {
      * @param metadata
      */
     private static void applyTimeMetadata(RecordMetadata metadata) {
-        TIMEFORMAT_ISO8601.setTimeZone(TimeZone.getTimeZone("UTC"));
         DateTime referenceTimeUtc = new DateTime(pdsv.getReferenceTime(), DateTimeZone.UTC);
-        metadata.setReferenceTime(TIMEFORMAT_ISO8601.format(referenceTimeUtc.getMillis()));
+        metadata.setReferenceTime(referenceTimeUtc.getMillis());
         DateTime forecastTimeUtc = new DateTime(referenceTimeUtc.plusHours(pdsv.getForecastTime()));
-        metadata.setForecastTime(TIMEFORMAT_ISO8601.format(forecastTimeUtc.getMillis()));
+        metadata.setForecastTime(forecastTimeUtc.getMillis());
     }
 
     /**
