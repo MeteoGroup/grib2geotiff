@@ -1,4 +1,8 @@
 /target
 /.idea
 /.sonar
+/.settings
+/.project
+/.classpath
+/dependency-reduced-pom.xml
 *.iml
