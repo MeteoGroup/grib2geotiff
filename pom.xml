@@ -122,17 +122,19 @@
 			<artifactId>gt-image</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.geotools</groupId>
-			<artifactId>gt-imageio-ext-gdal</artifactId>
-			<version>${geotools.version}</version>
-		</dependency>
 
 	</dependencies>
 
 	<build>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+
 		<defaultGoal>package</defaultGoal>
-		<sourceDirectory>src/</sourceDirectory>
 		<plugins>
 			<!-- Maven Jar Plugin to exclude the large GoldenTestData content and adjust Manifest -->
 			<plugin>
