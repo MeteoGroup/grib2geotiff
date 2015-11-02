@@ -21,7 +21,7 @@ public class Main {
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args){
 
         Options options = createOptions();
 
@@ -41,6 +41,9 @@ public class Main {
 
         }catch(ParseException e){
             new HelpFormatter().printHelp("gfs-atomizer", options);
+        }catch(Exception e) {
+        	new HelpFormatter().printHelp("gfs-atomizer", options);
+        	LOGGER.error("Unexpected Error due runtime: "+e.getLocalizedMessage(), e);
         }
     }
 
@@ -49,15 +52,9 @@ public class Main {
      * @param inDirectory
      * @param outDirectory
      */
-    private static void validateDirectories(String inDirectory, String outDirectory) {
-        try {
-            DirectoryVerifyer.verifyInputDirectory(inDirectory);
-            DirectoryVerifyer.verifyInputDirectory(inDirectory);
-        } catch (IOException e) {
-            LOGGER.info(e.getMessage(), e);
-            e.printStackTrace();
-        }
-
+    private static void validateDirectories(String inDirectory, String outDirectory) throws IOException{
+        DirectoryVerifyer.verifyInputDirectory(inDirectory);
+        DirectoryVerifyer.verifyInputDirectory(inDirectory);
     }
 
     /**
