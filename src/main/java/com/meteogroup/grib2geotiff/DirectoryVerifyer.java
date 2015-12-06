@@ -14,15 +14,15 @@ public class DirectoryVerifyer {
      * @throws IOException
      */
     public static void verifyInputDirectory(String inputDirectory) throws IOException{
-        File dir = new File(inputDirectory);
-        if(!dir.exists()){
-            throw new IOException("Selected input path does not exist: "+dir.getAbsolutePath());
-        }
+        File dir = new File(inputDirectory).getCanonicalFile();
         if(!dir.isDirectory()){
             throw new IOException("Selected input path is not a directory: "+dir.getAbsolutePath());
         }
         if(!dir.canRead()){
             throw new IOException("Selected input directory is not readable: "+dir.getAbsolutePath());
+        }
+        if(!dir.exists()){
+            throw new IOException("Selected input path does not exist: "+dir.getAbsolutePath());
         }
     }
 
