@@ -24,25 +24,32 @@ public class Main {
     public static void main(String[] args){
 
         Options options = createOptions();
-
+        new HelpFormatter().printHelp("java -jar grib2geotiff.jar", options);
+        
         CommandLineParser parser = new DefaultParser();
 
         try{
             CommandLine cmd = parser.parse(options, args);
-            String inDirectory = cmd.getOptionValue("in", "");
-            String outDirectory = cmd.getOptionValue("out", "");
+            
+        	String inDirectory = cmd.getOptionValue("in", "");
+        	String outDirectory = cmd.getOptionValue("out", "");
 
+        	File inFile = new File(inDirectory);
+        	File outFile = new File(outDirectory);
+        	
+        	LOGGER.info("\nused input:  "+new File(inFile.getAbsolutePath()));
+        	LOGGER.info("used output: "+new File(outFile.getAbsolutePath())+"\n");
+        	
             validateDirectories(inDirectory, outDirectory);
 
-            GribAtomizer atomizer = new GribAtomizer(
-                    new File(inDirectory),
-                    new File(outDirectory));
+            GribAtomizer atomizer = new GribAtomizer(inFile, outFile);
             atomizer.atomize();
 
         }catch(ParseException e){
-            new HelpFormatter().printHelp("gfs-atomizer", options);
+        	LOGGER.info("Unexpected Error due runtime: "+e.getLocalizedMessage());
+        	LOGGER.error("Unexpected Error due runtime: "+e.getLocalizedMessage(), e);
         }catch(Exception e) {
-        	new HelpFormatter().printHelp("gfs-atomizer", options);
+        	LOGGER.info("Unexpected Error due runtime: "+e.getLocalizedMessage());
         	LOGGER.error("Unexpected Error due runtime: "+e.getLocalizedMessage(), e);
         }
     }
