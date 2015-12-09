@@ -10,10 +10,10 @@ import static org.junit.Assert.fail;
  */
 public class GeoTiffExporterTest {
 
-    @Test
-    @Ignore
-    public void gribfiles_are_detected_properly(){
-        fail("not jet implemented");
-    }
+  @Test
+  @Ignore
+  public void gribfiles_are_detected_properly() {
+    fail("not jet implemented");
+  }
 
 }

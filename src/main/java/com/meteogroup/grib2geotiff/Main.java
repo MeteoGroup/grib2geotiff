@@ -12,68 +12,65 @@ import java.io.IOException;
  */
 public class Main {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+  static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    /**
-     *
-     * Main Method
-     *
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args){
+  /**
+   * Main Method
+   *
+   * @param args
+   * @throws Exception
+   */
+  public static void main(String[] args) {
 
-        Options options = createOptions();
-        new HelpFormatter().printHelp("java -jar grib2geotiff.jar", options);
-        
-        CommandLineParser parser = new DefaultParser();
+    Options options = createOptions();
+    new HelpFormatter().printHelp("java -jar grib2geotiff.jar", options);
 
-        try{
-            CommandLine cmd = parser.parse(options, args);
-            
-        	String inDirectory = cmd.getOptionValue("in", "");
-        	String outDirectory = cmd.getOptionValue("out", "");
+    CommandLineParser parser = new DefaultParser();
 
-        	File inFile = new File(inDirectory);
-        	File outFile = new File(outDirectory);
-        	
-        	LOGGER.info("\nused input:  "+new File(inFile.getAbsolutePath()));
-        	LOGGER.info("used output: "+new File(outFile.getAbsolutePath())+"\n");
-        	
-            validateDirectories(inDirectory, outDirectory);
+    try {
+      CommandLine cmd = parser.parse(options, args);
 
-            GribAtomizer atomizer = new GribAtomizer(inFile, outFile);
-            atomizer.atomize();
+      String inDirectory = cmd.getOptionValue("in", "");
+      String outDirectory = cmd.getOptionValue("out", "");
 
-        }catch(ParseException e){
-        	LOGGER.info("Unexpected Error due runtime: "+e.getLocalizedMessage());
-        	LOGGER.error("Unexpected Error due runtime: "+e.getLocalizedMessage(), e);
-        }catch(Exception e) {
-        	LOGGER.info("Unexpected Error due runtime: "+e.getLocalizedMessage());
-        	LOGGER.error("Unexpected Error due runtime: "+e.getLocalizedMessage(), e);
-        }
+      File inFile = new File(inDirectory);
+      File outFile = new File(outDirectory);
+
+      LOGGER.info("\nused input:  " + new File(inFile.getAbsolutePath()));
+      LOGGER.info("used output: " + new File(outFile.getAbsolutePath()) + "\n");
+
+      validateDirectories(inDirectory, outDirectory);
+
+      GribAtomizer atomizer = new GribAtomizer(inFile, outFile);
+      atomizer.atomize();
+
+    } catch (ParseException e) {
+      LOGGER.info("Unexpected Error due runtime: " + e.getLocalizedMessage());
+      LOGGER.error("Unexpected Error due runtime: " + e.getLocalizedMessage(), e);
+    } catch (Exception e) {
+      LOGGER.info("Unexpected Error due runtime: " + e.getLocalizedMessage());
+      LOGGER.error("Unexpected Error due runtime: " + e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     *
-     * @param inDirectory
-     * @param outDirectory
-     */
-    private static void validateDirectories(String inDirectory, String outDirectory) throws IOException{
-        DirectoryVerifyer.verifyInputDirectory(inDirectory);
-        DirectoryVerifyer.verifyInputDirectory(inDirectory);
-    }
+  /**
+   * @param inDirectory
+   * @param outDirectory
+   */
+  private static void validateDirectories(String inDirectory, String outDirectory) throws IOException {
+    DirectoryVerifyer.verifyInputDirectory(inDirectory);
+    DirectoryVerifyer.verifyInputDirectory(inDirectory);
+  }
 
-    /**
-     *
-     * @return
-     */
-    private static Options createOptions() {
-        Options options = new Options();
-        options.addOption("help", false, "help");
-        options.addOption("in", true, "input directory with some GFS Gribfiles");
-        options.addOption("out", true, "output directory for atomized Geotiffs");
-        return options;
-    }
+  /**
+   * @return
+   */
+  private static Options createOptions() {
+    Options options = new Options();
+    options.addOption("help", false, "help");
+    options.addOption("in", true, "input directory with some GFS Gribfiles");
+    options.addOption("out", true, "output directory for atomized Geotiffs");
+    return options;
+  }
 
 }

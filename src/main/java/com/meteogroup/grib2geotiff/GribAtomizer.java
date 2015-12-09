@@ -14,37 +14,35 @@ import java.util.List;
  */
 public class GribAtomizer {
 
-    GribFileAccess gribAccessor = new GribFileAccess();
+  GribFileAccess gribAccessor = new GribFileAccess();
 
-    GribMetadataReader metadataReader = new GribMetadataReader();
+  GribMetadataReader metadataReader = new GribMetadataReader();
 
-    GeoTiffExporter geoTiffExporter = new GeoTiffExporter();
+  GeoTiffExporter geoTiffExporter = new GeoTiffExporter();
 
-    /**
-     *
-     * @param inDirectory
-     * @param outDirectory
-     * @throws Exception
-     */
-    public GribAtomizer(File inDirectory, File outDirectory) throws Exception{
-        this.gribAccessor.setInputDirectory(inDirectory);
-        this.geoTiffExporter.setOutDirectory(outDirectory);
+  /**
+   * @param inDirectory
+   * @param outDirectory
+   * @throws Exception
+   */
+  public GribAtomizer(File inDirectory, File outDirectory) throws Exception {
+    this.gribAccessor.setInputDirectory(inDirectory);
+    this.geoTiffExporter.setOutDirectory(outDirectory);
+  }
+
+  /**
+   * @throws Exception
+   */
+  public void atomize() throws Exception {
+    List<RandomAccessFile> gfsFiles = gribAccessor.getRafFiles();
+    for (RandomAccessFile gfsFile : gfsFiles) {
+      List<Grib2Record> records = gribAccessor.getRecords(gfsFile);
+      for (Grib2Record record : records) {
+        RecordMetadata metadata = GribMetadataReader.getGfsRecordMetadata(record);
+        float[] data = gribAccessor.getGfsRecordData(gfsFile, record);
+        geoTiffExporter.createGeoTiff(data, metadata);
+      }
     }
-
-    /**
-     *
-     * @throws Exception
-     */
-    public void atomize() throws Exception{
-        List<RandomAccessFile> gfsFiles = gribAccessor.getRafFiles();
-        for (RandomAccessFile gfsFile : gfsFiles){
-            List<Grib2Record> records = gribAccessor.getRecords(gfsFile);
-            for(Grib2Record record : records){
-                RecordMetadata metadata = GribMetadataReader.getGfsRecordMetadata(record);
-                float[] data = gribAccessor.getGfsRecordData(gfsFile, record);
-                geoTiffExporter.createGeoTiff(data, metadata);
-            }
-        }
-    }
+  }
 
 }
