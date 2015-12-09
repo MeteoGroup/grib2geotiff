@@ -113,7 +113,7 @@ public class GeoTiffExporter {
   }
 
   private void appendTextMetadata(GeoTiffWriter writer, RecordMetadata metadata) throws IOException {
-    String desc = createDescriptionText(metadata);
+    String desc = GeoTiffDescriptionText.createDescriptionText(metadata);
     writer.setMetadataValue(Integer.toString(BaselineTIFFTagSet.TAG_DOCUMENT_NAME), metadata.getName());
     writer.setMetadataValue(Integer.toString(BaselineTIFFTagSet.TAG_IMAGE_DESCRIPTION), desc);
     writer.setMetadataValue(Integer.toString(BaselineTIFFTagSet.TAG_SOFTWARE), "edu.ucar & geotools");
@@ -178,37 +178,6 @@ public class GeoTiffExporter {
     return outDirectory + "/"
         + TargetPathGenerator.generateTargePath(metadata)
         + ".tif";
-  }
-
-  /**
-   * @param metadata
-   * @return
-   */
-  private String createDescriptionText(RecordMetadata metadata) {
-    StringBuffer desc = new StringBuffer()
-        .append("Parameter ID ")
-        .append(metadata.getId())
-        .append(": ")
-        .append(metadata.getName())
-        .append(" in ")
-        .append(metadata.getUnit());
-    if (metadata.getLevelType1() != null) {
-      desc.append(" at ")
-          .append(metadata.getLevelValue1())
-          .append(" ")
-          .append(metadata.getLevelType2());
-    }
-    if (metadata.getLevelType2() != null) {
-      if (metadata.getLevelType1() != null) {
-        desc.append(" and ");
-      } else {
-        desc.append(" at ");
-      }
-      desc.append(metadata.getLevelValue2())
-          .append(" ")
-          .append(metadata.getLevelType2());
-    }
-    return desc.toString();
   }
 
 }
