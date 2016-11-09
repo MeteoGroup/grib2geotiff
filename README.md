@@ -4,3 +4,7 @@
 
 # Version 2.0 - Work in Progress
 
+Aims of v2 is 
+
+1. to support more models
+2. to do not have to configure every single model
