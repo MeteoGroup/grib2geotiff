@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/MeteoGroup/grib2geotiff.svg?branch=master)](https://travis-ci.org/MeteoGroup/grib2geotiff/)
 
+Note: work on [version 2](https://github.com/MeteoGroup/grib2geotiff/tree/v2) in progress
+
 # grib2geotiff - Gribfile to Geotiff
 This handy tool converts Gribfiles to Geotiffs.
 Gribfiles (.grb, .grib or .grib2) are the de-facto standard file format in the Meteorology world while Geotiff (.tif) has the same rank in the GIS world.
